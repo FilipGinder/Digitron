@@ -86,7 +86,7 @@ $(".dugmici").click(function(){
                        if(znak == "+")
                        {
                         var trenutna_vrednost = $("#displej").val();
-                        var rezultat = parseInt(osnovna_prva_vrednost) + parseInt(trenutna_vrednost);
+                        var rezultat = parseInt(window.osnovna_prva_vrednost) + parseInt(trenutna_vrednost);
                         $("#displej").val(rezultat);
                         znak = "";
                         provera_broja = "posle jednako";
@@ -166,3 +166,4 @@ $(".dugmici").click(function(){
 
 })
 });
+
