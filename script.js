@@ -1,5 +1,3 @@
-//Treba namestiti da sabira posle znaka  tj  prva vrednost plus druga vrednost pa onda umesto jednako opet plus a on da sabira
-
 $(document).ready(function(){
 
    znak = "";
@@ -15,12 +13,17 @@ $(".dugmici").click(function(){
 
   if(stisnuto_dugme == "+")
   {
+      if($("#displej").val() == "")
+      {
+        return;
+      }
+      else
+      {
               if(provera_za_dalje_racunanje_znakom == "prvo stiskanje znaka")
               {
                         window.osnovna_prva_vrednost = $("#displej").val();
                         znak = "+";
                         provera_broja = "puna";
-                        provera_za_dalje_racunanje_znakom = "drugo stiskanje znaka";
                         return;
 
               }
@@ -32,7 +35,6 @@ $(".dugmici").click(function(){
                         provera_broja = "puna";
                         znak = "+";
                         window.osnovna_prva_vrednost = 0;
-
               }
               else if(provera_za_dalje_racunanje_znakom == 'trece stiskanje znaka')
               {
@@ -44,13 +46,49 @@ $(".dugmici").click(function(){
                         window.osnovna_prva_vrednost = window.ispis;
                         window.rezultat = 0;
               }
+      }
+
+
+
 
   }
   else if(stisnuto_dugme == "-")
   {
-                  osnovna_prva_vrednost = $("#displej").val();
-                  znak = "-";
-                  provera_broja = "puna";
+        if($("#displej").val() == "")
+        {
+          return;
+        }
+        else
+        {
+                if(provera_za_dalje_racunanje_znakom == "prvo stiskanje znaka")
+                {
+                          window.osnovna_prva_vrednost = $("#displej").val();
+                          znak = "-";
+                          provera_broja = "puna";
+                          return;
+
+                }
+                else if(provera_za_dalje_racunanje_znakom == "drugo stiskanje znaka")
+                {
+                          var trenutna_vrednost = $("#displej").val();
+                          window.rezultat = window.osnovna_prva_vrednost - trenutna_vrednost;
+                          $("#displej").val(window.rezultat);
+                          provera_broja = "puna";
+                          znak = "-";
+                          window.osnovna_prva_vrednost = 0;
+                }
+                else if(provera_za_dalje_racunanje_znakom == 'trece stiskanje znaka')
+                {
+                          var trenutna_vrednost = $("#displej").val();
+                          window.ispis = window.rezultat - trenutna_vrednost;
+                          $("#displej").val(ispis);
+                          provera_broja = "puna";
+                          znak = "-";
+                          window.osnovna_prva_vrednost = window.ispis;
+                          window.rezultat = 0;
+                }
+        }
+
   }
   else if(stisnuto_dugme == "*")
   {
@@ -97,10 +135,13 @@ $(".dugmici").click(function(){
                        if(znak == "-")
                        {
                         var trenutna_vrednost = $("#displej").val();
-                        rezultat = osnovna_prva_vrednost - trenutna_vrednost;
+                        var rezultat = window.rezultat - window.osnovna_prva_vrednost - trenutna_vrednost;
                         $("#displej").val(rezultat);
                         znak = "";
                         provera_broja = "posle jednako";
+                        window.rezultat = 0;
+                        window.osnovna_prva_vrednost = 0;
+                        provera_za_dalje_racunanje_znakom = "prvo stiskanje znaka";
                        }
                        if(znak == "*")
                        {
@@ -135,8 +176,11 @@ $(".dugmici").click(function(){
        var trenutna_vrednost = $("#displej").val();
        var nova_vrednost = $("#displej").val(trenutna_vrednost+stisnuto_dugme);
        provera_broja = "unesen prvi broj";
-
-       if(provera_za_dalje_racunanje_znakom == "drugo stiskanje znaka" && osnovna_prva_vrednost == 0)
+       if(provera_za_dalje_racunanje_znakom == "prvo stiskanje znaka")
+       {
+         provera_za_dalje_racunanje_znakom = "drugo stiskanje znaka";
+       }
+       else if(provera_za_dalje_racunanje_znakom == "drugo stiskanje znaka" && osnovna_prva_vrednost == 0)
        {
          provera_za_dalje_racunanje_znakom = "trece stiskanje znaka";
        }
@@ -144,8 +188,6 @@ $(".dugmici").click(function(){
        {
          provera_za_dalje_racunanje_znakom = "drugo stiskanje znaka";
        }
-
-
     }
     else if(provera_broja == 'unesen prvi broj')
     {
