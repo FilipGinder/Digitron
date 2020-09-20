@@ -5,6 +5,9 @@ $(document).ready(function(){
    provera_za_dalje_racunanje_znakom = "prvo stiskanje znaka";
    window.rezultat = "0";
    window.osnovna_prva_vrednost = "0";
+   window.rezultat_puta_podeljeno = "1";
+   window.osnovna_prva_vrednost_puta_podeljeno = "1";
+   window.stisnuto_jednako = "nije";
 
 
 
@@ -14,6 +17,10 @@ $(".dugmici").click(function(){
   if(stisnuto_dugme == "+")
   {
       if($("#displej").val() == "")
+      {
+        return;
+      }
+      else if(window.stisnuto_jednako == "jeste")
       {
         return;
       }
@@ -40,7 +47,7 @@ $(".dugmici").click(function(){
               {
                         var trenutna_vrednost = $("#displej").val();
                         window.ispis = parseInt(window.rezultat) + parseInt(trenutna_vrednost);
-                        $("#displej").val(ispis);
+                        $("#displej").val(window.ispis);
                         provera_broja = "puna";
                         znak = "+";
                         window.osnovna_prva_vrednost = window.ispis;
@@ -81,7 +88,7 @@ $(".dugmici").click(function(){
                 {
                           var trenutna_vrednost = $("#displej").val();
                           window.ispis = window.rezultat - trenutna_vrednost;
-                          $("#displej").val(ispis);
+                          $("#displej").val(window.ispis);
                           provera_broja = "puna";
                           znak = "-";
                           window.osnovna_prva_vrednost = window.ispis;
@@ -92,15 +99,79 @@ $(".dugmici").click(function(){
   }
   else if(stisnuto_dugme == "*")
   {
-   osnovna_prva_vrednost = $("#displej").val();
-   znak = "*";
-   provera_broja = "puna";
+    if($("#displej").val() == "")
+    {
+      return;
+    }
+    else
+    {
+            if(provera_za_dalje_racunanje_znakom == "prvo stiskanje znaka")
+            {
+                      window.osnovna_prva_vrednost_puta_podeljeno = $("#displej").val();
+                      znak = "*";
+                      provera_broja = "puna";
+                      return;
+
+            }
+
+            else if(provera_za_dalje_racunanje_znakom == "drugo stiskanje znaka")
+            {
+                      var trenutna_vrednost = $("#displej").val();
+                      window.rezultat_puta_podeljeno = window.osnovna_prva_vrednost_puta_podeljeno * trenutna_vrednost;
+                      $("#displej").val(window.rezultat_puta_podeljeno);
+                      provera_broja = "puna";
+                      znak = "*";
+                      window.osnovna_prva_vrednost_puta_podeljeno = 1;
+            }
+            else if(provera_za_dalje_racunanje_znakom == 'trece stiskanje znaka')
+            {
+                      var trenutna_vrednost = $("#displej").val();
+                      window.ispis = window.rezultat_puta_podeljeno * trenutna_vrednost;
+                      $("#displej").val(window.ispis);
+                      provera_broja = "puna";
+                      znak = "*";
+                      window.osnovna_prva_vrednost_puta_podeljeno = window.ispis;
+                      window.rezultat_puta_podeljeno = 1;
+            }
+    }
   }
   else if(stisnuto_dugme == "/")
   {
-   osnovna_prva_vrednost = $("#displej").val();
-   znak = "/";
-   provera_broja = "puna";
+    if($("#displej").val() == "")
+    {
+      return;
+    }
+    else
+    {
+            if(provera_za_dalje_racunanje_znakom == "prvo stiskanje znaka")
+            {
+                      window.osnovna_prva_vrednost_puta_podeljeno = $("#displej").val();
+                      znak = "/";
+                      provera_broja = "puna";
+                      return;
+
+            }
+
+            else if(provera_za_dalje_racunanje_znakom == "drugo stiskanje znaka")
+            {
+                      var trenutna_vrednost = $("#displej").val();
+                      window.rezultat_puta_podeljeno = window.osnovna_prva_vrednost_puta_podeljeno / trenutna_vrednost;
+                      $("#displej").val(window.rezultat_puta_podeljeno);
+                      provera_broja = "puna";
+                      znak = "/";
+                      window.osnovna_prva_vrednost_puta_podeljeno = 1;
+            }
+            else if(provera_za_dalje_racunanje_znakom == 'trece stiskanje znaka')
+            {
+                      var trenutna_vrednost = $("#displej").val();
+                      window.ispis = window.rezultat_puta_podeljeno / trenutna_vrednost;
+                      $("#displej").val(window.ispis);
+                      provera_broja = "puna";
+                      znak = "/";
+                      window.osnovna_prva_vrednost_puta_podeljeno = window.ispis;
+                      window.rezultat_puta_podeljeno = 1;
+            }
+    }
   }
   else if(stisnuto_dugme == "C")
   {
@@ -116,8 +187,10 @@ $(".dugmici").click(function(){
   }
   else if(stisnuto_dugme == "CE")
   {
-   $("#displej").val('');
+   $("#displej").val(' ');
    znak = "";
+   window.rezultat = "0";
+   window.osnovna_prva_vrednost = "0";
   }
   else if(stisnuto_dugme == "=")
   {
@@ -131,6 +204,7 @@ $(".dugmici").click(function(){
                            window.rezultat = 0;
                            window.osnovna_prva_vrednost = 0;
                            provera_za_dalje_racunanje_znakom = "prvo stiskanje znaka";
+                           window.stisnuto_jednako = "jeste";
                        }
                        if(znak == "-")
                        {
@@ -146,18 +220,24 @@ $(".dugmici").click(function(){
                        if(znak == "*")
                        {
                         var trenutna_vrednost = $("#displej").val();
-                        rezultat = osnovna_prva_vrednost * trenutna_vrednost;
+                        rezultat = window.osnovna_prva_vrednost_puta_podeljeno * window.rezultat_puta_podeljeno * trenutna_vrednost;
                         $("#displej").val(rezultat);
                         znak = "";
                         provera_broja = "posle jednako";
+                        window.rezultat_puta_podeljeno = 1;
+                        window.osnovna_prva_vrednost_puta_podeljeno = 1;
+                        provera_za_dalje_racunanje_znakom = "prvo stiskanje znaka";
                        }
                        if(znak == "/")
                        {
                         var trenutna_vrednost = $("#displej").val();
-                        rezultat = osnovna_prva_vrednost / trenutna_vrednost;
+                        rezultat = window.osnovna_prva_vrednost_puta_podeljeno / window.rezultat_puta_podeljeno / trenutna_vrednost;
                         $("#displej").val(rezultat);
                         znak = "";
                         provera_broja = "posle jednako";
+                        window.rezultat_puta_podeljeno = 1;
+                        window.osnovna_prva_vrednost_puta_podeljeno = 1;
+                        provera_za_dalje_racunanje_znakom = "prvo stiskanje znaka";
                        }
   }
   else
@@ -180,11 +260,11 @@ $(".dugmici").click(function(){
        {
          provera_za_dalje_racunanje_znakom = "drugo stiskanje znaka";
        }
-       else if(provera_za_dalje_racunanje_znakom == "drugo stiskanje znaka" && osnovna_prva_vrednost == 0)
+       else if(provera_za_dalje_racunanje_znakom == "drugo stiskanje znaka")
        {
          provera_za_dalje_racunanje_znakom = "trece stiskanje znaka";
        }
-       else if(provera_za_dalje_racunanje_znakom == "trece stiskanje znaka" && window.rezultat == 0 )
+       else if(provera_za_dalje_racunanje_znakom == "trece stiskanje znaka")
        {
          provera_za_dalje_racunanje_znakom = "drugo stiskanje znaka";
        }
@@ -197,6 +277,7 @@ $(".dugmici").click(function(){
     }
     else if(provera_broja == 'posle jednako')
     {
+      window.stisnuto_jednako = "nije";
       $("#displej").val('');
       var trenutna_vrednost = $("#displej").val();
       var nova_vrednost = $("#displej").val(trenutna_vrednost+stisnuto_dugme);
