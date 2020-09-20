@@ -65,6 +65,10 @@ $(".dugmici").click(function(){
         {
           return;
         }
+        else if(window.stisnuto_jednako == "jeste")
+        {
+          return;
+        }
         else
         {
                 if(provera_za_dalje_racunanje_znakom == "prvo stiskanje znaka")
@@ -103,6 +107,10 @@ $(".dugmici").click(function(){
     {
       return;
     }
+    else if(window.stisnuto_jednako == "jeste")
+    {
+      return;
+    }
     else
     {
             if(provera_za_dalje_racunanje_znakom == "prvo stiskanje znaka")
@@ -138,6 +146,10 @@ $(".dugmici").click(function(){
   else if(stisnuto_dugme == "/")
   {
     if($("#displej").val() == "")
+    {
+      return;
+    }
+    else if(window.stisnuto_jednako == "jeste")
     {
       return;
     }
@@ -289,3 +301,4 @@ $(".dugmici").click(function(){
 
 })
 });
+
